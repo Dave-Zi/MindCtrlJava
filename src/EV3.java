@@ -198,7 +198,7 @@ class EV3 {
      *      - message data size (2 bytes)
      *      - message data
      *
-     * The message format is in little endian.
+     * The message format is little endian.
      * Therefore when constructing and prepending the message data size,
      * this has to be addressed.
 
