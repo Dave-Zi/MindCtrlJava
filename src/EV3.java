@@ -12,12 +12,22 @@ class EV3 {
     private SerialPort port;
     private int delay = 0;
 
-
-    public int getDelay(){return delay;}
-    public void setDelay(int delay){this.delay = delay;}
     /**
-     * Construct EV3 object and connect it to EV3 brick.
+     * getter for delay (ms)
+     * @return delay value
+     */
+    public int getDelay(){return delay;}
+
+    /**
+     * Setter for delay value
+     * @param delay new value
+     */
+    public void setDelay(int delay){this.delay = delay;}
+
+    /**
+     * Construct EV3 object and connect it to given port.
      * Throw Exception if connecting fails.
+     * @param portName to connect to
      */
     EV3(String portName){
         logger.info("EV3 object initiated at - " + LocalDateTime.now().toString() );
@@ -116,6 +126,14 @@ class EV3 {
         delay();
     }
 
+    /**
+     * Rotate motors with given speed continuously
+     *
+     * @param motor1 speed for port A
+     * @param motor2 speed for port B
+     * @param motor3 speed for port C
+     * @param motor4 speed for port D
+     */
     void spin(int motor1, int motor2, int motor3, int motor4){
         send(Messages.concatArrays(new byte[][]{
                 Messages.header,
@@ -125,10 +143,18 @@ class EV3 {
                 Messages.spinMotor(4, motor4)}));
     }
 
+    /**
+     * Stop all motors at once.
+     */
     void stop(){
         spin(0,0,0,0);
     }
 
+    /**
+     * Get value from sensor connected at port @param portNum
+     * @param portNum port number
+     * @return value if received any, if not return null
+     */
     Float sensor(int portNum){
 
         byte[] reply = send(Messages.sensorData(portNum, 0));
@@ -137,6 +163,13 @@ class EV3 {
         return value;
     }
 
+    /**
+     * Get value from sensor connected at port @param portNum.
+     * Data will relate to the specified mode @param mode
+     * @param portNum port number
+     * @param mode sensor mode
+     * @return value if received any, if not return null
+     */
     Float sensor(int portNum, int mode){
 
         byte[] reply = send(Messages.sensorData(portNum, mode));
@@ -195,6 +228,9 @@ class EV3 {
         return fullReply;
     }
 
+    /**
+     * sleep for @delay milliseconds
+     */
     private void delay(){
         if (delay > 0){
             try {
