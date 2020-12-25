@@ -180,7 +180,7 @@ class Messages{
      * @return motor direction byte
      */
     private static byte directionByte(int angle) {
-        return (byte) (angle < 0 ? 0x63 : 0x01);}
+        return (byte) (angle < 0 ? 0x3F : 0x01);}
 
     /**
      * Construct a message for moving a motor.
