@@ -1,4 +1,5 @@
 import com.fazecast.jSerialComm.SerialPort;
+
 import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
@@ -43,6 +44,9 @@ class EV3 {
         if (port != null) {
             port.openPort();
             logger.info("Port open!");
+            port.setComPortTimeouts
+                    (SerialPort.NO_PARITY, SerialPort.TIMEOUT_READ_BLOCKING, SerialPort.TIMEOUT_WRITE_BLOCKING);
+
         } else {
             logger.severe("No EV3 Brick Found!");
             throw new NullPointerException("Brick was not found!\n");}
@@ -148,6 +152,7 @@ class EV3 {
      */
     void stop(){
         spin(0,0,0,0);
+        delay();
     }
 
     /**
@@ -160,6 +165,7 @@ class EV3 {
         byte[] reply = send(Messages.sensorData(portNum, 0));
         Float value = Messages.convertSensorReply(reply);
         logger.info("Port " + portNum + " - " + value);
+        delay();
         return value;
     }
 
@@ -180,6 +186,7 @@ class EV3 {
             logMessage = "Port " + portNum + " - " + Colors.values()[value.intValue()];
         }
         logger.info(logMessage);
+        delay();
         return value;
     }
     /**
@@ -189,7 +196,9 @@ class EV3 {
      * @param duration sound duration in ms
      */
     void tone(int frequency, int volume, int duration) {
+
         send(Messages.toneData(frequency, volume, duration));
+        delay();
     }
 
     /**
@@ -211,7 +220,11 @@ class EV3 {
                 messageLength,
                 message
         });
-
+        StringBuilder sb = new StringBuilder();
+        for (byte b : fullMessage) {
+            sb.append(String.format("%02X ", b));
+        }
+        System.out.println(sb.toString());
         byte[] fullReply = null;
 
         if (port.isOpen()){
