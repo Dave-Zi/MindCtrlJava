@@ -220,11 +220,7 @@ class EV3 {
                 messageLength,
                 message
         });
-        StringBuilder sb = new StringBuilder();
-        for (byte b : fullMessage) {
-            sb.append(String.format("%02X ", b));
-        }
-        System.out.println(sb.toString());
+
         byte[] fullReply = null;
 
         if (port.isOpen()){
