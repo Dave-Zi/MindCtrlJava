@@ -148,7 +148,7 @@ public class EV3 {
     /**
      * Stop all motors at once.
      */
-    void stop(){
+    public void stop(){
         spin(0,0,0,0);
         delay();
     }
