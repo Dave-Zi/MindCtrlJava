@@ -1,13 +1,11 @@
+package EV3;
+
 import com.fazecast.jSerialComm.SerialPort;
 
 import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
-enum Colors {
-    NONE, BLACK, BLUE, GREEN, YELLOW, RED, WHITE, BROWN
-}
-
-class EV3 {
+public class EV3 {
 
     private Logger logger = Logger.getLogger(EV3.class.getName());
     private SerialPort port;
@@ -26,13 +24,13 @@ class EV3 {
     public void setDelay(int delay){this.delay = delay;}
 
     /**
-     * Construct EV3 object and connect it to given port.
+     * Construct EV3.EV3 object and connect it to given port.
      * Throw Exception if connecting fails.
      * @param portName to connect to
      */
-    EV3(String portName){
-        logger.info("EV3 object initiated at - " + LocalDateTime.now().toString() );
-        logger.config("Trying to connect to EV3 Brick...");
+    public EV3(String portName){
+        logger.info("EV3.EV3 object initiated at - " + LocalDateTime.now().toString() );
+        logger.config("Trying to connect to EV3.EV3 Brick...");
 
         for (SerialPort sp: SerialPort.getCommPorts()) {
             if (sp.getSystemPortName().equals(portName)){
@@ -48,14 +46,14 @@ class EV3 {
                     (SerialPort.NO_PARITY, SerialPort.TIMEOUT_READ_BLOCKING, SerialPort.TIMEOUT_WRITE_BLOCKING);
 
         } else {
-            logger.severe("No EV3 Brick Found!");
+            logger.severe("No EV3.EV3 Brick Found!");
             throw new NullPointerException("Brick was not found!\n");}
     }
 
     /**
      * Close port
      */
-    void disconnect(){
+    public void disconnect(){
         stop();
         port.closePort();
         logger.info("Port closed!");
@@ -63,7 +61,7 @@ class EV3 {
 
     /**
      * Rotate all motors simultaneously.
-     * Constructs a message to the EV3 brick that contains:
+     * Constructs a message to the EV3.EV3 brick that contains:
      *      - header
      *      - body
      *          - motor 1 body
@@ -82,7 +80,7 @@ class EV3 {
      * @param motor4 Angle of motor 4
      * @param speed Movement speed
      */
-    void rotate(int motor1, int motor2,int motor3,int motor4, int speed){
+    public void rotate(int motor1, int motor2,int motor3,int motor4, int speed){
 
         byte[] body = Messages.allMotorsDataToBytes(motor1, motor2, motor3, motor4, speed);
 
@@ -100,7 +98,7 @@ class EV3 {
 
     /**
      * Rotate a single motor.
-     * Constructs a message to the EV3 brick that contains:
+     * Constructs a message to the EV3.EV3 brick that contains:
      *      - header
      *      - body
      *      - start
@@ -114,7 +112,7 @@ class EV3 {
      * @param angle Movement angle
      * @param speed Movement speed
      */
-    void rotate(int index, int angle, int speed){
+    public void rotate(int index, int angle, int speed){
         if (angle == 0){
             return;
         }
@@ -138,7 +136,7 @@ class EV3 {
      * @param motor3 speed for port C
      * @param motor4 speed for port D
      */
-    void spin(int motor1, int motor2, int motor3, int motor4){
+    public void spin(int motor1, int motor2, int motor3, int motor4){
         send(Messages.concatArrays(new byte[][]{
                 Messages.header,
                 Messages.spinMotor(1, motor1),
@@ -160,7 +158,7 @@ class EV3 {
      * @param portNum port number
      * @return value if received any, if not return null
      */
-    Float sensor(int portNum){
+    public Float sensor(int portNum){
 
         byte[] reply = send(Messages.sensorData(portNum, 0));
         Float value = Messages.convertSensorReply(reply);
@@ -176,7 +174,7 @@ class EV3 {
      * @param mode sensor mode
      * @return value if received any, if not return null
      */
-    Float sensor(int portNum, int mode){
+    public Float sensor(int portNum, int mode){
 
         byte[] reply = send(Messages.sensorData(portNum, mode));
         Float value = Messages.convertSensorReply(reply);
@@ -190,19 +188,19 @@ class EV3 {
         return value;
     }
     /**
-     * Make EV3 brick beep
+     * Make EV3.EV3 brick beep
      * @param frequency sound frequency
      * @param volume sound volume
      * @param duration sound duration in ms
      */
-    void tone(int frequency, int volume, int duration) {
+    public void tone(int frequency, int volume, int duration) {
 
         send(Messages.toneData(frequency, volume, duration));
         delay();
     }
 
     /**
-     * Send message to the EV3 brick
+     * Send message to the EV3.EV3 brick
      * Message format is:
      *      - message data size (2 bytes)
      *      - message data

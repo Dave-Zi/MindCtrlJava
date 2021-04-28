@@ -1,13 +1,15 @@
+package EV3;
+
 import java.util.List;
 
 /**
  * Class for the messages data itself
- * Messages are split into smaller parts that can be easily
+ * EV3.Messages are split into smaller parts that can be easily
  * constructed using this class.
  */
 class Messages{
     /**
-     * Tell EV3 to wait for motor to finish
+     * Tell EV3.EV3 to wait for motor to finish
      */
     static byte[] wait = new byte[]{(byte)0xAA, 0x00, 0x0F};
     /**
@@ -28,7 +30,7 @@ class Messages{
      * Request data from sensor at port @param portNum in mode @param mode
      * @param portNum port number to read data from
      * @param mode sensor mode that data relates to
-     * @return message part for the EV3 brick
+     * @return message part for the EV3.EV3 brick
      */
     static byte[] sensorData(int portNum, int mode){
         return new byte[]
@@ -58,7 +60,7 @@ class Messages{
      * @param motor3 motor angle at port 3
      * @param motor4 motor angle at port 4
      * @param speed motor movement speed
-     * @return byte array that the EV3 brick can understand.
+     * @return byte array that the EV3.EV3 brick can understand.
      */
     static byte[] allMotorsDataToBytes(int motor1, int motor2, int motor3, int motor4, int speed){
         int maxAngle = List.of(motor1, motor2, motor3, motor4)
@@ -85,7 +87,7 @@ class Messages{
      * @param angle motor angle to move
      * @param maxAngle if all motors are moved at once, this is the biggest angle. 0 otherwise.
      * @param speed motor movement speed
-     * @return byte array that the EV3 brick can understand.
+     * @return byte array that the EV3.EV3 brick can understand.
      */
     static byte[] motorDataToBytes(int index, int angle, int maxAngle, int speed) {
 
@@ -104,7 +106,7 @@ class Messages{
      * Spin motor at given speed continuously
      * @param index motor port
      * @param speed rotation speed
-     * @return byte array for the EV3 brick
+     * @return byte array for the EV3.EV3 brick
      */
     static byte[] spinMotor(int index, int speed){
         if (speed == 0){ // Stop motor logic
@@ -120,11 +122,11 @@ class Messages{
     }
 
     /**
-     * Make the EV3 brick play a tone
+     * Make the EV3.EV3 brick play a tone
      * @param frequency tone frequency
      * @param volume tone volume
      * @param duration to duration in ms
-     * @return byte array for the EV3 brick
+     * @return byte array for the EV3.EV3 brick
      */
     static byte[] toneData(int frequency, int volume, int duration) {
 
@@ -191,7 +193,7 @@ class Messages{
      * @param index motor port index to rotate
      * @param angle of motor movement
      * @param relativeSpeed speed of motor
-     * @return message for EV3 brick
+     * @return message for EV3.EV3 brick
      */
     private static byte[] motorMovement(int index, int angle, int relativeSpeed){
         return concatArrays(new byte[][]{
